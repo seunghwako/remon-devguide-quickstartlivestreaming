@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RemoteMonster - Simple Example</title>
+
+  <!-- 아주 조금 예쁘게 하기 -->   
   <style>
     #mymain { 
       margin-left: auto; margin-right: auto; width: 320px; 
@@ -32,8 +34,8 @@
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@remotemonster/sdk/remon.min.js"></script>
   <script>
+  let isConnected = false;
   let remon;
-
   const config = {
     credential: {
       serviceId: 'c6e84b98-ce26-49dd-8e4a-16b5c298d015',
@@ -41,38 +43,22 @@
     },
     view: {
       remote: '#remoteVideo'
-    },
-    media: {
-      recvonly: true,
-      audio: false,
-      video: false
     }
   };
-
   const listener = {
     onCreate(chid) { console.log(`EVENT FIRED: onCreate: ${chid}`); },
     onJoin(chid) { console.log(`EVENT FIRED: onJoin: ${chid}`); $('#mystart').prop( "disabled", true ); $('#mystop').prop( "disabled", false ); },
-    onClose() { 
-      console.log('EVENT FIRED: onClose'); 
-      $('#mystart').prop( "disabled", false ); 
-      $('#mystop').prop( "disabled", true ); 
-      remon.close();
-      remon = new Remon({ config, listener });
-    },
+    onClose() { console.log('EVENT FIRED: onClose'); $('#mystart').prop( "disabled", false ); $('#mystop').prop( "disabled", true ); },
     onError(error) { console.log(`EVENT FIRED: onError: ${error}`); },
     onStat(result) { console.log(`EVENT FIRED: onStat: ${result}`); }
   };
-
   remon = new Remon({ config, listener });
-
   $('#mystop').click(function(){
     remon.close();
   });
-
   $('#mystart').click(function(){
     remon.joinCast("my-first-livestreaming");
   });
-
   </script>
 </body>
 </html>
